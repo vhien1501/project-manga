@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>R-Manga</title>
+	<link rel="stylesheet" type="text/css" href="../public/css/style.css"/>
+	<link rel="stylesheet" type="text/css" href="../public/css/font-awesome.css"/>
+</head>
+<body>
+	<header>
+		<div class="search">
+			<span class="fa fa-search"></span>
+			<input type="text" placeholder="Search"/>
+		</div>
+		<div class="access">
+			<ul>
+				<li><a href="#">Johnny Appleseed</a><span>|</span></li>
+				<li><a href="#">Logout</a></li>
+				<li id="search-menu"><span>|</span><a href="#">Search</a></li>
+			</ul>
+		</div>
+	</header>
+	<nav>
+		<span class="fa fa-pencil-square-o"></span>
+	</nav>
+	<section class="user">
+		<div class="chatting">
+			<ul id="message"></ul>
+			<br/>
+			<form action="">
+				<input id="m" autocomplete="off"/><button>Send</button>
+			</form>
+		</div>
+	</section>
+	<section class="content">
+		
+	</section>	
+	<script src="/socket.io/socket.io.js"></script>
+	<script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+	<script>
+		$(function(){
+			var socket=io();
+			$('form').submit(function(){
+				socket.emit('chat message',$('#m').val());
+				$('#m').val('');
+				return false;
+			});
+			socket.on('chat message',function(msg){
+				$('#message').append($('<li>').text(msg));
+			});
+		});
+	</script>
+
+</body>
+</html>
